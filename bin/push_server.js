@@ -34,11 +34,14 @@ http
         }
 
         if (!request.url.query['message']) {
-          return request.respond(400, {error: 'bad request, no message parameter'});
+          return request.respond(400, {error: 'bad request, no ?message parameter'});
         }
 
         db.saveDoc({
           _id: uuid.generate(),
+          // would probably be better as an ISO string for sorting
+          time: +new Date,
+          type: 'message',
           message: request.url.query['message'],
           show: true,
         }, {

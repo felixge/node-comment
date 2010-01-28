@@ -36,7 +36,7 @@ function cache_client(port, host) {
 }
 
 function _interact(verb, path, successStatus, options, port, host) {
-	verb = verb.toLowerCase();
+	verb = verb.toUpperCase();
 	options = options || {};
 	var request;
 	
@@ -51,14 +51,15 @@ function _interact(verb, path, successStatus, options, port, host) {
 	}
 	
 	if (options.body) {
-		if (verb === "get") {
-			verb = "post";
+		if (verb === "GET") {
+			verb = "POST";
 		}
+
 		var requestBody = toJSON(options.body);
-		request = client.request(verb.toUpperCase(), requestPath, {"Content-Length": requestBody.length, "Content-Type": "application/json"});
+		request = client.request(verb, requestPath, {"Content-Length": requestBody.length, "Content-Type": "application/json"});
 		request.sendBody(requestBody, "utf8");
 	} else {
-		request = client[verb](requestPath);
+		request = client.request(verb, requestPath);
 	}
 	request.finish(function(response) {
 		var responseBody = "";
