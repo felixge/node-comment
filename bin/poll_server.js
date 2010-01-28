@@ -26,6 +26,9 @@ var
     '/'+config.couchDb.db+'/_changes?feed=continuous'
   );
 
+// Avoid the http client closing the connection after 60sec
+changeClient.setTimeout(0);
+
 http
   .createServer(function(req, res) {
       var request = new Request(req, res);
@@ -55,7 +58,7 @@ http
 
         return request.respond(200, {
           ok: true,
-          seq: messages[messages.length-1].seq,
+          seq: (messages[messages.length-1] || {seq: 0}).seq,
           messages: r
         });
       }
