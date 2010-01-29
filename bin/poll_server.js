@@ -107,7 +107,9 @@ changeRequest.finish(function(res) {
       buffer = buffer.substr(offset +1);
 
       try {
-        change = JSON.parse(change);
+        if( change != "" ){
+          change = JSON.parse(change);
+        }
       } catch (e) {
         throw new Error('Could not parse change line: "'+change+'"');
       }
