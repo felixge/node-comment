@@ -23,7 +23,7 @@ var
   changeRequest = changeClient.request(
     'GET',
     // Couch 0.11.x (trunk) supports ?include_docs=true, but we'll do it without
-    '/'+config.couchDb.db+'/_changes?feed=continuous'
+    '/'+config.couchDb.db+'/_changes?feed=continuous&heartbeat=30000'
   );
 
 // Avoid the http client closing the connection after 60sec
@@ -106,12 +106,23 @@ changeRequest.finish(function(res) {
       change = buffer.substr(0, offset);
       buffer = buffer.substr(offset +1);
 
+      // Couch sends an empty line as the "heartbeat"
+      if (change == '') {
+        return puts('couch heartbeat');
+      }
+
+      puts('couch change: '+change);
+
       try {
         if( change != "" ){
           change = JSON.parse(change);
         }
       } catch (e) {
         throw new Error('Could not parse change line: "'+change+'"');
+      }
+
+      if (!change.id) {
+        return puts('weird couch change: '+JSON.stringify(change));
       }
 
       // Fetch the document for this change
