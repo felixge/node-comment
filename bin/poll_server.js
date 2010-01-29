@@ -32,16 +32,16 @@ changeClient.setTimeout(0);
 http
   .createServer(function(req, res) {
       var request = new Request(req, res);
+
       if (request.url.pathname !== '/messages') {
         return request.respond(404, {error: 404});
       }
 
-      var since = request.url.query.since;
-      if (!since) {
+      if (!('since' in request.url.query)) {
         return request.respond(400, {error: 'bad request, no ?since parameter'});
       }
 
-      since = parseInt(since, 10);
+      var since = parseInt(request.url.query.since, 10);
       // Negative since is used by new clients to get the last abs(since) messages
       if (since < 0) {
         var
