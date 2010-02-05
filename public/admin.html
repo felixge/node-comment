@@ -8,69 +8,6 @@
   <script src="/js/dep/jquery.jsonp.js" type="text/javascript"></script>
   <script src="/js/lib/admin_client.js" type="text/javascript"></script>
   <script src="/js/dep/jquery.livequery.js" type="text/javascript" charset="utf-8"></script>
-  <script type="text/javascript" charset="utf-8">
-  var $status = $("#status");
-  $(function() {          
-    $(".spammit").livequery('click', function(){
-      message = $(this).parent().prev().text();
-      $("#admin-notes").text("Sending a 'spam' flag for the message: " + message);
-      send_to_trash(this);
-      return false
-    })});
-
-    $(".inappropriateit").livequery('click', function(){
-      // alert("I want to send an inappropriate command to url: " + inappropriateUrl + this.id );
-      message = $(this).parent().prev().text();
-      $("#admin-notes").text("Sending an 'inappropriate' flag for the message: " + message);
-      send_to_trash(this);
-      return false
-    });
-    
-    function get_status(item,success) {
-      //This should probably return a spinning progress icon until the transaction is completed, we'll use the TD hook that contains this to do that with ajax:success
-      if(success) {
-        if($(item).attr("class")=="inappropriateit") {
-          return "Inappropriate";
-        } else if($(item).attr("class")=="spammit"){
-          return "Spam";
-        }
-      } else {
-        return "draw spinner"
-      }
-    }
-    
-    function get_options(item) {
-      // return 123;
-      return ($("<span class='text-divider'/>").text(" | "))
-        .prepend($("<a href='#123' />").text("Restore"))
-        .append($("<a href='#567' />").text("Ban user")
-      )
-    }
-    function send_to_trash(item) {
-      // .hide("slow");
-      tr =  $("<tr id='"+$(item).attr("id")+"'/>")
-        .append(
-          $("<td/>").text($(item).parent().prev().text())
-        )
-        .append(
-          $("<td/>").text($(item).attr("id"))
-        )
-        .append(
-          $("<td class='status'/>").text(get_status(item))
-        )
-        .append(
-          $("<td class='options'/>").append(get_options(item))
-        )
-      $("#trashed_messages").append(
-        tr
-      );
-      $(item).parent().parent().hide("dissolve");
-      
-
-      // $("#trashed_messages").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
-    }
-    
-  </script>
 </head>
 <body>
   <h1>Admin</h1>

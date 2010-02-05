@@ -28,6 +28,9 @@ http
       .otherwise(function() {
         var
           request = new Request(req, res);
+        
+        // puts('receipt!');
+        // puts(request.url.query['action']);
 
         if (request.url.pathname != '/message') {
           return request.respond(404, {error: 404});
@@ -51,42 +54,45 @@ http
 //         show: true,
 
 //  status: 'awaiting_response', //awaiting_response || spam || inappropriate || destroyed states
-        if (!request.url.query['action']=="approve") {
+        if (request.url.query['action']=="approve") {
           params = {
             _id: request.url.query['_id'],
             status: 'approved',
             show: true,
-          }  
-            do_update(params);
+          };          puts(params);
+          do_update(params);
         }
-        else if(!request.url.query['action']=="spam") {
+        else if(request.url.query['action']=="spam") {
           params = {
             _id: request.url.query['_id'],
             status: 'spam',
             show: false,
-          }  
+          };        puts(params);
             do_update(params);
         } 
-        else if (!request.url.query['action']=="inappropriate") {
+        else if (request.url.query['action']=="inappropriate") {
             params = {
               _id: request.url.query['_id'],
               status: 'inappropriate',
               show: false,
-            }
-            do_update(params);
+            };
+        puts(params);            do_update(params);
         }
-        else if (!request.url.query['action']=="delete") {
+        else if (request.url.query['action']=="delete") {
             params = {
               _id: request.url.query['_id'],
               status: 'deleted',
               show: false,
-            }
+            };
+                    puts(params);
             do_update(params);
-        }
+        };
+        puts(params);
       });
   })
   .listen(config.admin.port);
   
   function do_update(params) {
     puts("updating..!");
+    return true;
   }

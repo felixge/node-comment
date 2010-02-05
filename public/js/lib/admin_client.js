@@ -7,11 +7,19 @@ $(function() {
 
     $status = $('#status'),
     $messages = $('#messages'),
-    pollUrl = [
+    updateUrl = [
       'http://',
       window.location.hostname,
       ':',
       8013,
+      '/messages'
+    ].join('');
+     
+    pollUrl = [
+      'http://',
+      window.location.hostname,
+      ':',
+      8012,
       '/messages'
     ].join('');
     
@@ -25,21 +33,25 @@ $(function() {
   /* ADMIN VARIABLE BITS END */
   
   function do_update(pId,pAction) {
-    var _id = pId, action = pAction;
 
-    $status.text('Sending message ...');
-    $message.val('');
-
+    var id = pId, action = pAction;
     var start = +new Date;
+
     $.ajax({
-      url: pushUrl,
-      data: {_id: _id, action: action},
+      url: updateUrl,
+      data: {_id: id, action: action},
       dataType: 'jsonp',
-      success: function() {
-        var duration = (+new Date - start);
-        $status.text('Message pushed to couch in '+duration+'ms');
+      success: function(response) {
+        // var duration = (+new Date - start);
+        alert(response);
+        $("#admin-notes").text('I WANT TO CHANGE THE TEXT IN THE ITEMS SPAM/THINGY');
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+          alert(xhr.statusText);
+          // alert(thrownError);
       }
-    })
+    });
+    alert('done done');
 
     return false;
   }
@@ -112,5 +124,65 @@ $(function() {
   }
 
   poll();
-});
+  
+  
+  // var $status = $("#status");
 
+     $(".spammit").livequery('click', function(){
+       message = $(this).parent().prev().text();
+       $("#admin-notes").text("Sending a 'spam' flag for the message: " + message);
+       send_to_trash(this, "spam");
+       return false
+     });
+
+     $(".inappropriateit").livequery('click', function(){
+       // alert("I want to send an inappropriate command to url: " + inappropriateUrl + this.id );
+       message = $(this).parent().prev().text();
+       $("#admin-notes").text("Sending an 'inappropriate' flag for the message: " + message);
+       send_to_trash(this, "inappropriate");
+       return false
+     });
+
+     function get_status(item, action) {
+       //This should probably return a spinning progress icon until the transaction is completed, we'll use the TD hook that contains this to do that with ajax:success
+       if(action) {
+         do_update(id, action);
+         alert("done")
+       } else {
+         return "fail"
+       }
+     }
+
+     function get_options(item) {
+       // return 123;
+       return ($("<span class='text-divider'/>").text(" | "))
+         .prepend($("<a href='#restore' />").text("Restore"))
+         .append($("<a href='#ban' />").text("Ban user")
+       )
+     }
+     function send_to_trash(item, action) {
+       // .hide("slow");
+       id = $(item).attr("id");
+       tr =  $("<tr id='"+id+"'/>")
+         .append(
+           $("<td/>").text($(item).parent().prev().text())
+         )
+         .append(
+           $("<td/>").text(id)
+         )
+         .append(
+           $("<td class='status'/>").text(get_status(id, action))
+         )
+         .append(
+           $("<td class='options'/>").append(get_options(item))
+         )
+       $("#trashed_messages").append(
+         tr
+       );
+       $(item).parent().parent().hide("dissolve");
+
+
+       // $("#trashed_messages").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
+     }
+
+});
