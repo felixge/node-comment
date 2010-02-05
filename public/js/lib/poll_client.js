@@ -60,4 +60,17 @@ $(function() {
   }
 
   poll();
+  function post(url) {
+    $admin-text.text('Sending a command to '+url+'...');
+    $.jsonp({
+      url:url,
+      callbackParameter: 'callback',
+      timeout: TIMEOUT,
+      error: function(xOptions, status) {
+        if (status != 'timeout') {
+          $admin-text.text('JSONP error: '+status);
+        }
+      }
+    })
+  }
 });

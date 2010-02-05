@@ -12,7 +12,7 @@ exports.poll = {
 
 // CouchDB connection
 exports.couchDb = {
-  db: 'node-comment',
+  db: 'comments',
   host: 'localhost',
   port: 5984,
 };
