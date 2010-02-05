@@ -24,6 +24,26 @@ $(function() {
 
   /* ADMIN VARIABLE BITS END */
   
+  function do_update(pId,pAction) {
+    var _id = pId, action = pAction;
+
+    $status.text('Sending message ...');
+    $message.val('');
+
+    var start = +new Date;
+    $.ajax({
+      url: pushUrl,
+      data: {_id: _id, action: action},
+      dataType: 'jsonp',
+      success: function() {
+        var duration = (+new Date - start);
+        $status.text('Message pushed to couch in '+duration+'ms');
+      }
+    })
+
+    return false;
+  }
+  
   function poll() {
     var
       url = pollUrl+'?since='+since;
