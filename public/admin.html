@@ -26,13 +26,48 @@
       return false
     });
     
+    function get_status(item,success) {
+      //This should probably return a spinning progress icon until the transaction is completed, we'll use the TD hook that contains this to do that with ajax:success
+      if(success) {
+        if($(item).attr("class")=="inappropriateit") {
+          return "Inappropriate";
+        } else if($(item).attr("class")=="spammit"){
+          return "Spam";
+        }
+      } else {
+        return "draw spinner"
+      }
+    }
+    
+    function get_options(item) {
+      // return 123;
+      return ($("<span class='text-divider'/>").text(" | "))
+        .prepend($("<a href='#123' />").text("Restore"))
+        .append($("<a href='#567' />").text("Ban user")
+      )
+    }
     function send_to_trash(item) {
       // .hide("slow");
+      tr =  $("<tr id='"+$(item).attr("id")+"'/>")
+        .append(
+          $("<td/>").text($(item).parent().prev().text())
+        )
+        .append(
+          $("<td/>").text($(item).attr("id"))
+        )
+        .append(
+          $("<td class='status'/>").text(get_status(item))
+        )
+        .append(
+          $("<td class='options'/>").append(get_options(item))
+        )
       $("#trashed_messages").append(
-        $("<tr/>")
-          .append($("<td/>").text($(item).parent().prev().text()))
+        tr
       );
-      $("#trashed_messages").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
+      $(item).parent().parent().hide("dissolve");
+      
+
+      // $("#trashed_messages").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
     }
     
   </script>

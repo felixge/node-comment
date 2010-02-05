@@ -10,6 +10,10 @@ exports.poll = {
   backlog: 100,
 };
 
+exports.admin = {
+  port: 8013,
+};
+
 // CouchDB connection
 exports.couchDb = {
   db: 'comments',

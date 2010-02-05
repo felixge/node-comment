@@ -43,8 +43,8 @@ http
           time: +new Date,
           type: 'message',
           message: request.url.query['message'],
-		  relaxdb_class: "Comment",
-		  approved: 'awaiting_response',
+    		  relaxdb_class: "Comment",
+    		  status: 'awaiting_response', //awaiting_response || spam || inappropriate || destroyed states
           show: true,
         }, {
           success: function() {

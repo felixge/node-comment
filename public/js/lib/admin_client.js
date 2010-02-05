@@ -11,7 +11,7 @@ $(function() {
       'http://',
       window.location.hostname,
       ':',
-      8012, // @todo, read from config/default.js
+      8013,
       '/messages'
     ].join('');
     
