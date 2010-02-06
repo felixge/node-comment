@@ -50,7 +50,7 @@ http
             _id: request.url.query['_id'],
             status: 'approved',
             show: true,
-          };          puts(params);
+          };
           do_update(params);
         }
         else if(request.url.query['action']==="spam") {
@@ -58,8 +58,8 @@ http
             _id: request.url.query['_id'],
             status: 'spam',
             show: false,
-          };        puts(params);
-            do_update(params);
+          };
+          do_update(params);
         } 
         else if (request.url.query['action']==="inappropriate") {
             params = {
@@ -67,7 +67,7 @@ http
               status: 'inappropriate',
               show: false,
             };
-        puts(params);            do_update(params);
+            do_update(params);
         }
         else if (request.url.query['action']==="delete") {
             params = {
@@ -75,10 +75,7 @@ http
               status: 'deleted',
               show: false,
             };
-                    puts(params);
             do_update(params);
-        } 
-        else {
         };
         puts(params);
       });
