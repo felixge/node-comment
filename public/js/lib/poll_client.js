@@ -27,10 +27,11 @@ $(function() {
       timeout: TIMEOUT,
       error: function(xOptions, status) {
         if (status != 'timeout') {
-          return $status.text('JSONP error: '+status);
+          $status.text('JSONP error: '+status);
+        } else {
+          $status.text('Timeout, re-connect in '+PAUSE+' ms');
         }
 
-        $status.text('Timeout, re-connect in '+PAUSE+' ms');
         // Wait for PAUSE ms before re-connecting
         setTimeout(function() {
           poll();
