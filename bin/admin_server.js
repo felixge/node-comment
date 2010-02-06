@@ -29,10 +29,6 @@ http
         var
           request = new Request(req, res);
         
-        puts("hiya");
-        // puts('receipt!');
-        // puts(request.url.query['action']);
-
 
 //         _id: uuid.generate(),
 //         // would probably be better as an ISO string for sorting
@@ -79,29 +75,51 @@ http
         } else {
               request.respond(400, {ok: 'badness'});
         };
-        puts(params);
       });
   })
   .listen(config.admin.port);
   
+  function get_db_doc(params, request) {
+    db.openDoc(params['_id'], {
+      success: function(_doc) {
+        puts("win" + _doc.message);
+        save_to_db(_doc, params, request);
+      },
+      error: function(e) {
+        //doc stays null
+        puts("fail");
+      }
+    });
+  }
+  
+  function save_to_db(doc, params, request) {
+    
+    db.saveDoc(doc, {
+
+      _id: params['_id'],
+      status: params['status'],
+      show: params['show'],
+      message: "WHATABOUTYE",
+
+      success: function() {
+        // puts("hello?" + doc._rev + ":" + doc.message);
+        request.respond(200, {ok: 'message saved'});
+      },
+      error: function(e) {
+        puts("die");
+      }
+    });
+    
+    puts(doc.message);
+    
+  }
+
   function do_update(params, request) {
     //db call
-     // db.saveDoc({
-     //     _id: uuid.generate(),
-     //     // would probably be better as an ISO string for sorting
-     //     time: +new Date,
-     //     type: 'message',
-     //     message: request.url.query['message'],
-     //         relaxdb_class: "Comment",
-     //         status: 'awaiting_response', //awaiting_response || spam || inappropriate || destroyed states
-     //     show: true,
-     //   }, {
-     //     success: function() {
-     //       request.respond(200, {ok: 'message stored'});
-     //     },
-     //     error: function(e) {
-     //       throw e;
-     //     },
-     //   });
-    request.respond(200, {ok: " "+params['status']});
+    doc = get_db_doc(params, request);
+    
+    return true;
   }
+  
+  
+  
