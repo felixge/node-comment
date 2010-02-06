@@ -27,24 +27,18 @@ $(function() {
 
     var id = pId, action = pAction;
     var start = +new Date;
-    alert("hiya");
     $.ajax({
       url: updateUrl,
       data: {_id: id, action: action},
       dataType: 'jsonp',
       success: function(response) {
         // var duration = (+new Date - start);
-        alert(response['ok']);
         $("#admin-notes").text('I WANT TO CHANGE THE TEXT IN THE ITEMS SPAM/THINGY');
       },
       error:function (xhr, ajaxOptions, thrownError){
-          alert(xhr.statusText);
-          // alert(thrownError);
+        alert(thrownError);
       }
     });
-    alert("hiya");
-    
-
     return false;
   }
   
