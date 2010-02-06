@@ -114,7 +114,9 @@ changeRequest.finish(function(res) {
       puts('couch change: '+change);
 
       try {
-        change = JSON.parse(change);
+        if( change != "" ){
+          change = JSON.parse(change);
+        }
       } catch (e) {
         throw new Error('Could not parse change line: "'+change+'"');
       }
