@@ -134,6 +134,12 @@ changeRequest.finish(function(res) {
             // TODO remove doc.show boolean...
             return;
           }
+          
+          // TODO does this message exist in messages[]
+          // no? 
+          //  add it to array
+          // yes?
+          //  replace message with new data
 
           // Set the change seq for this message
           doc.seq = change.seq;
