@@ -51,7 +51,7 @@ http
             status: 'approved',
             show: true,
           };
-          do_update(params);
+          do_update(params, request);
         }
         else if(request.url.query['action']==="spam") {
           params = {
@@ -59,7 +59,7 @@ http
             status: 'spam',
             show: false,
           };
-          do_update(params);
+          do_update(params, request);
         } 
         else if (request.url.query['action']==="inappropriate") {
             params = {
@@ -67,7 +67,7 @@ http
               status: 'inappropriate',
               show: false,
             };
-            do_update(params);
+            do_update(params, request);
         }
         else if (request.url.query['action']==="delete") {
             params = {
@@ -75,14 +75,33 @@ http
               status: 'deleted',
               show: false,
             };
-            do_update(params);
+            do_update(params, request);
+        } else {
+              request.respond(400, {ok: 'badness'});
         };
         puts(params);
       });
   })
   .listen(config.admin.port);
   
-  function do_update(params) {
-    puts(params['status']);
-    return "finished";
+  function do_update(params, request) {
+    //db call
+     // db.saveDoc({
+     //     _id: uuid.generate(),
+     //     // would probably be better as an ISO string for sorting
+     //     time: +new Date,
+     //     type: 'message',
+     //     message: request.url.query['message'],
+     //         relaxdb_class: "Comment",
+     //         status: 'awaiting_response', //awaiting_response || spam || inappropriate || destroyed states
+     //     show: true,
+     //   }, {
+     //     success: function() {
+     //       request.respond(200, {ok: 'message stored'});
+     //     },
+     //     error: function(e) {
+     //       throw e;
+     //     },
+     //   });
+    request.respond(200, {ok: " "+params['status']});
   }
