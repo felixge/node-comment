@@ -29,20 +29,10 @@ http
         var
           request = new Request(req, res);
         
+        puts("hiya");
         // puts('receipt!');
         // puts(request.url.query['action']);
 
-        if (request.url.pathname != '/message') {
-          return request.respond(404, {error: 404});
-        }
-
-        if (!request.url.query['_id']) {
-          return request.respond(400, {error: 'bad request, no ?_id parameter'});
-        }
-
-        if (!request.url.query['action']) {
-          return request.respond(400, {error: 'bad request, no ?action parameter'});
-        }
 
 //         _id: uuid.generate(),
 //         // would probably be better as an ISO string for sorting
@@ -54,7 +44,8 @@ http
 //         show: true,
 
 //  status: 'awaiting_response', //awaiting_response || spam || inappropriate || destroyed states
-        if (request.url.query['action']=="approve") {
+
+        if (request.url.query['action']==="approve") {
           params = {
             _id: request.url.query['_id'],
             status: 'approved',
@@ -62,7 +53,7 @@ http
           };          puts(params);
           do_update(params);
         }
-        else if(request.url.query['action']=="spam") {
+        else if(request.url.query['action']==="spam") {
           params = {
             _id: request.url.query['_id'],
             status: 'spam',
@@ -70,7 +61,7 @@ http
           };        puts(params);
             do_update(params);
         } 
-        else if (request.url.query['action']=="inappropriate") {
+        else if (request.url.query['action']==="inappropriate") {
             params = {
               _id: request.url.query['_id'],
               status: 'inappropriate',
@@ -78,7 +69,7 @@ http
             };
         puts(params);            do_update(params);
         }
-        else if (request.url.query['action']=="delete") {
+        else if (request.url.query['action']==="delete") {
             params = {
               _id: request.url.query['_id'],
               status: 'deleted',
@@ -86,6 +77,8 @@ http
             };
                     puts(params);
             do_update(params);
+        } 
+        else {
         };
         puts(params);
       });
@@ -93,6 +86,6 @@ http
   .listen(config.admin.port);
   
   function do_update(params) {
-    puts("updating..!");
-    return true;
+    puts(params['status']);
+    return "finished";
   }

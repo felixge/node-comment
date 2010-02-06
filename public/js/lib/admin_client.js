@@ -36,7 +36,7 @@ $(function() {
 
     var id = pId, action = pAction;
     var start = +new Date;
-
+    alert("hiya");
     $.ajax({
       url: updateUrl,
       data: {_id: id, action: action},
@@ -51,7 +51,8 @@ $(function() {
           // alert(thrownError);
       }
     });
-    alert('done done');
+    alert("hiya");
+    
 
     return false;
   }
@@ -147,7 +148,6 @@ $(function() {
        //This should probably return a spinning progress icon until the transaction is completed, we'll use the TD hook that contains this to do that with ajax:success
        if(action) {
          do_update(id, action);
-         alert("done")
        } else {
          return "fail"
        }
