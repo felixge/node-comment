@@ -2,14 +2,45 @@
 <html lang="en"> 
 <head> 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-  <title>PoC</title> 
+  <title>PoC</title>
+  
+  <script src="/js/dep/jquery.js" type="text/javascript"></script>
+  <script src="/js/dep/jquery.jsonp.js" type="text/javascript"></script>
+  <script src="/js/lib/poll_client.js" type="text/javascript"></script>
+  <script src="/js/lib/push_client.js" type="text/javascript"></script>
+  
+  
+  <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/css/text.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/css/grid.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/css/nav.css" media="screen" />
+	
+  <link rel="stylesheet" href="/css/master.css" type="text/css" media="screen, projection">
 </head>
 <body>
-  <h1>PoC</h1>
-  <ul>
-    <li><a href="push.html">Push a message</a></li>
-    <li><a href="poll.html">Poll for messages</a></li>
-    <li><a href="admin.html">Administer messages</a></li>
-  </ul>
+  <div class="container_16">
+    <h1>node-comment</h1>
+    <ul class="menu">
+      <li><a href="admin.html">Administer messages</a></li>
+    </ul>
+    
+    <p>Messages must be <strong>published</strong> via the admin system before they are visible.</p>
+    
+    <form>
+      <h2>Comment</h2>
+      <fieldset>
+        <textarea id="message"></textarea>
+        <input type="submit" value="Push">
+      </fieldset>
+      <p id="pushstatus"></p>
+    </form>
+    
+    <hr />
+    <p id="status"></p>
+    <hr />
+
+    <ul id="messages">No Comments</ul>
+  </div>
 </body>
 </html> 

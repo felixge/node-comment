@@ -1,6 +1,6 @@
 $(function() {
   var
-    $status = $('#status'),
+    $status = $('#pushstatus'),
     $message = $('#message'),
     pushUrl = [
       'http://',
