@@ -85,7 +85,7 @@ $(function() {
                   $("<td id="+this._id+"/>").text(this.message)
                 )
                 .append(
-                  $("<td/>").prepend("<a href='#inappropriatize/"+this._id+"' id='"+this._id+"' class='inappropriateit'>inappropriate</a>")
+                  $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>")
                 )
                 .append(
                   $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
@@ -145,11 +145,10 @@ $(function() {
        return false
      });
 
-     $(".inappropriateit").livequery('click', function(){
-       // alert("I want to send an inappropriate command to url: " + inappropriateUrl + this.id );
+     $(".publish").livequery('click', function(){
        message = $(this).parent().prev().text();
-       $("#admin-notes").text("Sending an 'inappropriate' flag for the message: " + message);
-       send_to_trash(this, "inappropriate");
+       $("#admin-notes").text("Publishing the message: " + message);
+       send_to_trash(this, "publish");
        return false
      });
 
