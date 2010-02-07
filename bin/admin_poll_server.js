@@ -135,16 +135,49 @@ changeRequest.finish(function(res) {
             return;
           }
           
+          var doc_ids = messages.map(function(message, i){
+            return message._id;
+          });
+
+          // Set the change seq for this message
+          doc.seq = change.seq;
+          
+          var found = null;
+          doc_ids.map(function(elem,i){
+            if(doc._id == elem._id){
+              found = true;
+            }
+          });
+          
+          // Find the Element
+          if(found){
+            
+            // ELEMENT EXISTS ALREADY
+            
+            var pos = null;
+            messages.map(function(elem, i){
+              if( elem._id == doc._id ){
+                pos = i;
+                return elem;
+              }
+            }).first();
+            
+            messages[pos] = doc;
+            
+            
+          } else {
+            // Add it to the list of messages
+            messages.push(doc);
+          }
+
           // TODO does this message exist in messages[]
           // no? 
           //  add it to array
           // yes?
           //  replace message with new data
 
-          // Set the change seq for this message
-          doc.seq = change.seq;
-          // Add it to the list of messages
-          messages.push(doc);
+
+
 
           // Get rid of an old message if the backlog is full
           if (messages.length > config.admin_poll.backlog) {
