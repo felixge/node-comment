@@ -82,7 +82,6 @@ http
   function get_db_doc(params, request) {
     db.openDoc(params['_id'], {
       success: function(_doc) {
-        puts("win" + _doc.message);
         save_to_db(_doc, params, request);
       },
       error: function(e) {
@@ -93,25 +92,18 @@ http
   }
   
   function save_to_db(doc, params, request) {
-    
-    db.saveDoc(doc, {
-
-      _id: params['_id'],
-      status: params['status'],
-      show: params['show'],
-      message: "WHATABOUTYE",
-
+    doc._id = params['_id'];
+    doc.status = params['status']
+    doc.show = params['show'];
+        
+    db.saveDoc( doc, {
       success: function() {
-        // puts("hello?" + doc._rev + ":" + doc.message);
         request.respond(200, {ok: 'message saved'});
       },
       error: function(e) {
         puts("die");
       }
     });
-    
-    puts(doc.message);
-    
   }
 
   function do_update(params, request) {

@@ -20,3 +20,9 @@ exports.couchDb = {
   host: 'localhost',
   port: 5984,
 };
+
+exports.admin_poll = {
+  port: 8014,
+  // Amount of messages to keep in memory
+  backlog: 100,
+};
