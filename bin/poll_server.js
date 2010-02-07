@@ -130,7 +130,7 @@ changeRequest.finish(function(res) {
         success: function(doc) {
           // Filter out the docs we care about
           // we could also use couch's filter docs this, but this is nice & simple
-          if (doc.type != 'message' || !doc.show || doc.status != 'approved') {
+          if (doc.type != 'message' || doc.status != 'approved') {
             // TODO remove doc.show boolean...
             return;
           }
