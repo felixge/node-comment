@@ -19,47 +19,32 @@ $(function() {
       'http://',
       window.location.hostname,
       ':',
-      8012,
+      8014,
       '/messages'
     ].join('');
-    
-    
-  /* ADMIN VARIABLE BITS */
-  
-    //these require _id to be appended by calling method
-    spamUrl =  pollUrl + '/spammit/';
-    inappropriateUrl =  pollUrl + '/inappropriatize/'; 
 
-  /* ADMIN VARIABLE BITS END */
-  
   function do_update(pId,pAction) {
 
     var id = pId, action = pAction;
     var start = +new Date;
-    alert("hiya");
     $.ajax({
       url: updateUrl,
       data: {_id: id, action: action},
       dataType: 'jsonp',
       success: function(response) {
         // var duration = (+new Date - start);
-        alert(response['ok']);
         $("#admin-notes").text('I WANT TO CHANGE THE TEXT IN THE ITEMS SPAM/THINGY');
       },
       error:function (xhr, ajaxOptions, thrownError){
-          alert(xhr.statusText);
-          // alert(thrownError);
+        alert(thrownError);
       }
     });
-    alert("hiya");
-    
-
     return false;
   }
   
   function poll() {
     var
-      url = pollUrl+'?since='+since;
+      url = pollUrl+'?since='+since+'&admin=1';
 
     $status.text('Polling '+url+' ...');
 
@@ -85,28 +70,52 @@ $(function() {
 
         $status.text('Fetched '+r.messages.length+' messages, re-connect in '+PAUSE+' ms');
 
-        // Show the new messages
-        $.each(r.messages, function() {
-          /*
-          This adds an LI element with simple text in. 
-          Desire:
-          * Add a link to approve/remove objects from the database live
-          * In some manner make this unbreakable...(ha)
-          */
-          $messages.prepend(
-            $('<tr/>')
-              .append(
-                $("<td id="+this._id+"/>").text(this.message)
-              )
-              .append(
-                $("<td/>").prepend("<a href='#inappropriatize/"+this._id+"' id='"+this._id+"' class='inappropriateit'>inappropriate</a>")
-              )
-              .append(
-                $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
-              )
-            );
-          });
-
+        if ($('#messages').children().length == 0) {
+          // Show the new messages
+          $.each(r.messages, function() {
+            /*
+            This adds an LI element with simple text in. 
+            Desire:
+            * Add a link to approve/remove objects from the database live
+            * In some manner make this unbreakable...(ha)
+            */
+            $messages.append(
+              $('<tr/>')
+                .append(
+                  $("<td id="+this._id+"/>").text(this.message)
+                )
+                .append(
+                  $("<td/>").prepend("<a href='#inappropriatize/"+this._id+"' id='"+this._id+"' class='inappropriateit'>inappropriate</a>")
+                )
+                .append(
+                  $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
+                )
+              );
+            });          
+        } else {
+          // Show the new messages
+          $.each(r.messages, function() {
+            /*
+            This adds an LI element with simple text in. 
+            Desire:
+            * Add a link to approve/remove objects from the database live
+            * In some manner make this unbreakable...(ha)
+            */
+            $messages.prepend(
+              $('<tr/>')
+                .append(
+                  $("<td id="+this._id+"/>").text(this.message)
+                )
+                .append(
+                  $("<td/>").prepend("<a href='#inappropriatize/"+this._id+"' id='"+this._id+"' class='inappropriateit'>inappropriate</a>")
+                )
+                .append(
+                  $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
+                )
+              );
+            });          
+        }
+        
               // .text(" mark as inappropriate"))
               // .text(this.message + "  ").append(
               //   $('<a href="#" class="inappropriateit"/>')
@@ -160,6 +169,7 @@ $(function() {
          .append($("<a href='#ban' />").text("Ban user")
        )
      }
+     
      function send_to_trash(item, action) {
        // .hide("slow");
        id = $(item).attr("id");

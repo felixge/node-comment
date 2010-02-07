@@ -93,7 +93,7 @@ http
         messages: r
       });
   })
-  .listen(config.poll.port);
+  .listen(config.admin_poll.port);
 
 // Watch CouchDB for changes
 changeRequest.finish(function(res) {
@@ -130,7 +130,7 @@ changeRequest.finish(function(res) {
         success: function(doc) {
           // Filter out the docs we care about
           // we could also use couch's filter docs this, but this is nice & simple
-          if (doc.type != 'message' || !doc.show || doc.status != 'approved') {
+          if (doc.type != 'message' || !doc.show ) {
             // TODO remove doc.show boolean...
             return;
           }
@@ -141,7 +141,7 @@ changeRequest.finish(function(res) {
           messages.push(doc);
 
           // Get rid of an old message if the backlog is full
-          if (messages.length > config.poll.backlog) {
+          if (messages.length > config.admin_poll.backlog) {
             messages.shift();
           }
 
@@ -159,6 +159,7 @@ changeRequest.finish(function(res) {
         }
       });
     }
+
   });
 
   res.addListener('complete', function() {
