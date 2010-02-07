@@ -92,14 +92,11 @@ http
   }
   
   function save_to_db(doc, params, request) {
-    
-    db.saveDoc(
-    {
-      _id: params['_id'],
-      status: params['status'],
-      show: params['show'],
-      message: "WHATABOUTYE"},
-    {  
+    doc._id = params['_id'];
+    doc.status = params['status']
+    doc.show = params['show'];
+        
+    db.saveDoc( doc, {
       success: function() {
         request.respond(200, {ok: 'message saved'});
       },
