@@ -144,7 +144,7 @@ changeRequest.finish(function(res) {
           
           var found = null;
           doc_ids.map(function(elem,i){
-            if(doc._id == elem._id){
+            if(doc._id == elem){
               found = true;
             }
           });
@@ -160,7 +160,7 @@ changeRequest.finish(function(res) {
                 pos = i;
                 return elem;
               }
-            }).first();
+            })
             
             messages[pos] = doc;
             
