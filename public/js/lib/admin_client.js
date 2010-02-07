@@ -169,6 +169,7 @@ $(function() {
          .append($("<a href='#ban' />").text("Ban user")
        )
      }
+     
      function send_to_trash(item, action) {
        // .hide("slow");
        id = $(item).attr("id");

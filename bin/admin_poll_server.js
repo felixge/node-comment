@@ -134,7 +134,7 @@ changeRequest.finish(function(res) {
             // TODO remove doc.show boolean...
             return;
           }
-          
+
           var doc_ids = messages.map(function(message, i){
             return message._id;
           });
@@ -175,9 +175,6 @@ changeRequest.finish(function(res) {
           //  add it to array
           // yes?
           //  replace message with new data
-
-
-
 
           // Get rid of an old message if the backlog is full
           if (messages.length > config.admin_poll.backlog) {
