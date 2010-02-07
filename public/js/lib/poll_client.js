@@ -43,12 +43,20 @@ $(function() {
 
         $status.text('Fetched '+r.messages.length+' messages, re-connect in '+PAUSE+' ms');
 
+        var template = "<li>{{message}} <strong class='ago'>({{ago}})</strong> </li>";
+
         // Show the new messages
-        $.each(r.messages, function() {
-          $messages.prepend(
-            $('<li/>')
-              .text(this.message)
-          );
+        $.each(r.messages, function(i, item) {
+          
+          var view = {
+            ago: function(){
+              return $.timeago(new Date(item.time));
+            },
+            message: item.message
+          };
+          var html = Mustache.to_html(template, view);
+          
+          $messages.prepend(html);
         });
 
         // Wait for PAUSE ms before re-connecting
