@@ -26,11 +26,11 @@ var
     '/'+config.couchDb.db+'/_changes?feed=continuous&heartbeat=30000'
   );
 
-// Avoid the http client closing the connection after 60sec
-changeClient.setTimeout(0);
+  // Avoid the http client closing the connection after 60sec
+  changeClient.setTimeout(0);
 
-http
-  .createServer(function(req, res) {
+  http
+    .createServer(function(req, res) {
       var request = new Request(req, res);
 
       if (request.url.pathname !== '/messages') {
@@ -130,11 +130,11 @@ changeRequest.finish(function(res) {
         success: function(doc) {
           // Filter out the docs we care about
           // we could also use couch's filter docs this, but this is nice & simple
-          if (doc.type != 'message' || !doc.show ) {
+          if (doc.type != 'message' || doc.status!="awaiting_response" ) {
             // TODO remove doc.show boolean...
             return;
           }
-
+        
           // Set the change seq for this message
           doc.seq = change.seq;
           // Add it to the list of messages
@@ -166,3 +166,4 @@ changeRequest.finish(function(res) {
     throw new Error('CouchDB closed /_changes stream on us!');
   });
 });
+
