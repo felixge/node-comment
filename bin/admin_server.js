@@ -41,7 +41,7 @@ http
 
 //  status: 'awaiting_response', //awaiting_response || spam || inappropriate || destroyed states
 
-        if (request.url.query['action']==="approve") {
+        if (request.url.query['action']==="publish") {
           params = {
             _id: request.url.query['_id'],
             status: 'approved',
