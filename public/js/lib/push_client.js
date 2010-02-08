@@ -1,29 +1,29 @@
 $(function() {
   var
     $status = $('#pushstatus'),
-    $message = $('#message'),
+    $comment = $('#comment'),
     pushUrl = [
       'http://',
       window.location.hostname,
       ':',
       window.location.port, // @todo, read from config/default.js
-      '/message'
+      '/comments/add'
     ].join('');
 
   $('form').submit(function() {
-    var val = $message.val();
+    var val = $comment.val();
 
-    $status.text('Sending message ...');
-    $message.val('');
+    $status.text('Sending comment ...');
+    $comment.val('');
 
     var start = +new Date;
     $.ajax({
       url: pushUrl,
-      data: {message: val},
+      data: {text: val},
       dataType: 'jsonp',
       success: function() {
         var duration = (+new Date - start);
-        $status.text('Message pushed to couch in '+duration+'ms');
+        $status.text('Comment pushed to couch in '+duration+'ms');
       }
     })
 

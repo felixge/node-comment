@@ -6,21 +6,21 @@ $(function() {
     since = -10,
 
     $status = $('#status'),
-    $messages = $('#messages'),
+    $comments = $('#comments'),
     updateUrl = [
       'http://',
       window.location.hostname,
       ':',
-      8013,
-      '/messages'
+      8012,
+      '/admin/comments/update'
     ].join('');
      
     pollUrl = [
       'http://',
       window.location.hostname,
       ':',
-      8014,
-      '/messages'
+      8012,
+      '/admin/comments'
     ].join('');
 
   function do_update(pId,pAction) {
@@ -29,7 +29,7 @@ $(function() {
     var start = +new Date;
     $.ajax({
       url: updateUrl,
-      data: {_id: id, action: action},
+      data: {id: id, action: action},
       dataType: 'jsonp',
       success: function(response) {
         // var duration = (+new Date - start);
@@ -68,21 +68,21 @@ $(function() {
         // Remember were we left off
         since = r.seq;
 
-        $status.text('Fetched '+r.messages.length+' messages, re-connect in '+PAUSE+' ms');
+        $status.text('Fetched '+r.comments.length+' comments, re-connect in '+PAUSE+' ms');
 
-        if ($('#messages').children().length == 0) {
-          // Show the new messages
-          $.each(r.messages, function() {
+        if ($('#comments').children().length == 0) {
+          // Show the new comments
+          $.each(r.comments, function() {
             /*
             This adds an LI element with simple text in. 
             Desire:
             * Add a link to approve/remove objects from the database live
             * In some manner make this unbreakable...(ha)
             */
-            $messages.append(
+            $comments.append(
               $('<tr/>')
                 .append(
-                  $("<td id="+this._id+"/>").text(this.message)
+                  $("<td id="+this._id+"/>").text(this.text)
                 )
                 .append(
                   $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>")
@@ -93,18 +93,18 @@ $(function() {
               );
             });          
         } else {
-          // Show the new messages
-          $.each(r.messages, function() {
+          // Show the new comments
+          $.each(r.comments, function() {
             /*
             This adds an LI element with simple text in. 
             Desire:
             * Add a link to approve/remove objects from the database live
             * In some manner make this unbreakable...(ha)
             */
-            $messages.prepend(
+            $comments.prepend(
               $('<tr/>')
                 .append(
-                  $("<td id="+this._id+"/>").text(this.message)
+                  $("<td id="+this._id+"/>").text(this.text)
                 )
                 .append(
                   $("<td/>").prepend("<a href='#inappropriatize/"+this._id+"' id='"+this._id+"' class='inappropriateit'>inappropriate</a>")
@@ -117,7 +117,7 @@ $(function() {
         }
         
               // .text(" mark as inappropriate"))
-              // .text(this.message + "  ").append(
+              // .text(this.comment + "  ").append(
               //   $('<a href="#" class="inappropriateit"/>')
               //   .text(" mark as inappropriate")
               // ).append(" ").append(
@@ -139,15 +139,15 @@ $(function() {
   // var $status = $("#status");
 
      $(".spammit").livequery('click', function(){
-       message = $(this).parent().prev().text();
-       $("#admin-notes").text("Sending a 'spam' flag for the message: " + message);
+       comment = $(this).parent().prev().text();
+       $("#admin-notes").text("Sending a 'spam' flag for the comment: " + comment);
        send_to_trash(this, "spam");
        return false
      });
 
      $(".publish").livequery('click', function(){
-       message = $(this).parent().prev().text();
-       $("#admin-notes").text("Publishing the message: " + message);
+       comment = $(this).parent().prev().text();
+       $("#admin-notes").text("Publishing the comment: " + comment);
        send_to_trash(this, "publish");
        return false
      });
@@ -185,13 +185,13 @@ $(function() {
          .append(
            $("<td class='options'/>").append(get_options(item))
          )
-       $("#trashed_messages").append(
+       $("#trashed_comments").append(
          tr
        );
        $(item).parent().parent().hide("dissolve");
 
 
-       // $("#trashed_messages").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
+       // $("#trashed_comments").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
      }
 
 });
